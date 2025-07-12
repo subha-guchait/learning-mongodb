@@ -66,6 +66,22 @@ userSchema.methods.getCart = function () {
   });
 };
 
+userSchema.methods.deleteItemFromCart = function (productId) {
+  const updatedCartItems = this.cart.items.filter((item) => {
+    return item.productId.toString() !== productId.toString();
+  });
+
+  this.cart.items = updatedCartItems;
+
+  return this.save()
+    .then((result) => {
+      console.log(result.cart.items);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 module.exports = mongoose.model("User", userSchema);
 
 // const mongodb = require("mongodb");
